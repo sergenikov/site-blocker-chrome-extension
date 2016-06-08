@@ -1,42 +1,42 @@
 var urlManager = {
 
-	tab : null,
+    tab : null,
 
-	addUrl: function (url) {
-		/* Add URL to block to the local chrome storage. */
-		chrome.storage.local.get(function(cfg) {
-			if(typeof(cfg["blocked"]) !== 'undefined' && cfg["blocked"] instanceof Array) {
-				cfg["blocked"].push(url);
-			} else {
-				cfg["blocked"] = [url];
-			}
-			chrome.storage.local.set(cfg);
-			console.log("addUrl(): added " + url);
-		});
-	},
+    addUrl: function (url) {
+        /* Add URL to block to the local chrome storage. */
+        chrome.storage.local.get(function(cfg) {
+            if(typeof(cfg["blocked"]) !== 'undefined' && cfg["blocked"] instanceof Array) {
+                cfg["blocked"].push(url);
+            } else {
+                cfg["blocked"] = [url];
+            }
+            chrome.storage.local.set(cfg);
+            console.log("addUrl(): added " + url);
+        });
+    },
 
-	getBlockedUrls : function () {
-		/* Used by storeUrl(). Makes request to chrome.storage and adds callback.
-		callbacks: printAllBlockedCallback */
-		chrome.storage.local.get('blocked', printAllBlockedCallback);
-	},
+    getBlockedUrls : function () {
+        /* Used by storeUrl(). Makes request to chrome.storage and adds callback.
+        callbacks: printAllBlockedCallback */
+        chrome.storage.local.get('blocked', printAllBlockedCallback);
+    },
 
-	clearStorage : function() {
-		/* Clears local storage completely */
-		chrome.storage.local.clear(clearCallback);
-	},
+    clearStorage : function() {
+        /* Clears local storage completely */
+        chrome.storage.local.clear(clearCallback);
+    },
 
-	storeUrl : function() {
-		/* Called by click browserAction event. Adds link of the current tab to the list of
-		blocked sites. */
+    storeUrl : function() {
+        /* Called by click browserAction event. Adds link of the current tab to the list of
+        blocked sites. */
         // set and get a test value - keeping for reference for now
-		// chrome.storage.local.set({"test" : "sergey"});
-		// var testVal = chrome.storage.local.get('test', getCallback);
+        // chrome.storage.local.set({"test" : "sergey"});
+        // var testVal = chrome.storage.local.get('test', getCallback);
 
-		// add to array of blocked urls in local chrome storage
-		this.addUrl(this.tab);
-		this.getBlockedUrls();
-	}
+        // add to array of blocked urls in local chrome storage
+        this.addUrl(this.tab);
+        this.getBlockedUrls();
+    }
 }
 
 function getCurrentTabUrl(callback) {
@@ -58,26 +58,26 @@ function getCurrentTabUrl(callback) {
 /*****************************************************************************/
 
 function getCallback(result) {
-	/* Prints that item was stored. Callback used in storeUrl() */
-	console.log("got item " + result.test);
+    /* Prints that item was stored. Callback used in storeUrl() */
+    console.log("got item " + result.test);
 }
 
 function setCallback() {
-	console.log("values set");
+    console.log("values set");
 }
 
 function clearCallback (){
-	/* Used by clearCallback function and runs when chrome.storage.local clears */
-	console.log("New session. Storage cleared");
+    /* Used by clearCallback function and runs when chrome.storage.local clears */
+    console.log("New session. Storage cleared");
 }
 
 function printAllBlockedCallback(result) {
-	/* Used by getBlockedUrls. Prints list of all URLs that are blocked. */
-	var blocked = result.blocked;
+    /* Used by getBlockedUrls. Prints list of all URLs that are blocked. */
+    var blocked = result.blocked;
     console.log("Blocked urls are:");
-	for (i in blocked) {
-		console.log(blocked[i]);
-	}
+    for (i in blocked) {
+        console.log(blocked[i]);
+    }
 }
 
 
@@ -88,14 +88,14 @@ function printAllBlockedCallback(result) {
 // urlManager.clearStorage();
 
 function start(tab) {
-	var URLManager = {};
+    var URLManager = {};
     var current_tab_url = null;
     getCurrentTabUrl(function(url) {
         current_tab_url = url
         console.log("start: getCurrentTabUrl.Callback: got current url "
-            + current_tab_url);
+        + current_tab_url);
         urlManager.tab = current_tab_url;
-    	urlManager.storeUrl();
+        urlManager.storeUrl();
     });
 }
 

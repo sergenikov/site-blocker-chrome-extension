@@ -1,17 +1,23 @@
 {
   "name": "URL Grabber",
   "description": "Grabs urls and saves them to local chrome storage",
-  "version": "2.0",
+  "version": "1.0",
+
   "permissions": [
 			"activeTab",
 			"storage"
   ],
-  "background": {
+
+  /*"background": {
     "scripts": ["background.js"],
     "persistent": false
-  },
+  },*/
+
   "browser_action": {
-    "default_title": "URL grabber"
+    "default_icon" : "icons-green/icon48.png",
+    "default_title" : "URL grabber",
+    "default_popup" : "popup.html"
   },
+
   "manifest_version": 2
 }

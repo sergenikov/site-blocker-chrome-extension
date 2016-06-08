@@ -6,12 +6,13 @@ var urlManager = {
         /* Add URL to block to the local chrome storage. */
         chrome.storage.local.get(function(cfg) {
             if(typeof(cfg["blocked"]) !== 'undefined' && cfg["blocked"] instanceof Array) {
-                cfg["blocked"].push(url);
+                if (!inArray(cfg["blocked"], url)) {
+                    cfg["blocked"].push(url);
+                }
             } else {
                 cfg["blocked"] = [url];
             }
             chrome.storage.local.set(cfg);
-            console.log("addUrl(): added " + url);
         });
     },
 
@@ -53,6 +54,46 @@ function getCurrentTabUrl(callback) {
     });
 }
 
+function inArray(blocked, value) {
+    /* Checks is value is in array */
+    console.log(">>>>>>>>> inArray function. Array length=" + blocked.length);
+    var n = blocked.length;
+    for(var i = 0; i < n; i++) {
+        console.log(">>>> comparing array[i]=" + blocked[i] + " value= " + value);
+        if(blocked[i] === value) {
+            return true;
+        }
+    }
+    return false;
+}
+
+function removeCurrentUrl() {
+    /* Remove current url from blocked array in local storage */
+    // TODO ISSUE remove nested callbacks later if possible.
+    getCurrentTabUrl(function(url) {
+        console.log("removeCurrentUrl: removing " + url);
+        chrome.storage.local.get(function(cfg) {
+            if(typeof(cfg["blocked"]) !== 'undefined' && cfg["blocked"] instanceof Array) {
+                var blocked  = cfg['blocked'];
+                for (i in blocked) {
+                    if (blocked === url) {
+                        console.log("removeCurrentUrl: removing " + url);
+                        blocked.splice(i, 1);
+                    }
+                }
+            } else {
+                console.log("removeCurrentUrl: ERROR: Did not get array "
+                    + "from storage");
+            }
+            chrome.storage.local.set(cfg);
+        });
+    });
+}
+
+function clearStorage() {
+    urlManager.clearStorage();
+}
+
 /*****************************************************************************/
 /* urlManager CALLBACKS */
 /*****************************************************************************/
@@ -84,9 +125,6 @@ function printAllBlockedCallback(result) {
 /*****************************************************************************/
 /* start */
 /*****************************************************************************/
-// TODO may need to remove this before actually using this extension
-// urlManager.clearStorage();
-
 function start(tab) {
     var URLManager = {};
     var current_tab_url = null;
@@ -102,4 +140,9 @@ function start(tab) {
 document.addEventListener('DOMContentLoaded', function() {
     var btnAdd = document.getElementById('btnAdd');
     btnAdd.addEventListener('click', start);
+    var btnRemove = document.getElementById('btnRemove');
+    btnRemove.addEventListener('click', removeCurrentUrl);
+    // TODO change this to manage links later
+    var btnManage = document.getElementById('btnManage');
+    btnManage.addEventListener('click', clearStorage);
 });

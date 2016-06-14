@@ -69,7 +69,7 @@ function printAllBlockedCallback(result) {
 /*****************************************************************************/
 /* start */
 /*****************************************************************************/
-urlManager.clearStorage();
+// urlManager.clearStorage();
 
 function start(tab) {
 	console.log("creating urlManager");
@@ -80,3 +80,13 @@ function start(tab) {
 
 // Not running anymore.
 // chrome.browserAction.onClicked.addListener(start);
+
+function run(tab) {
+	console.log("hello from background; url: " + tab.url);
+	// chrome.tabs.executeScript(tab.url, {
+	// 	code: 'alert("Cat not found!");'
+	// });
+}
+
+// chrome.webNavigation.onCompleted.addListener(function(details) {
+// document.addEventListener("DOMContentLoaded", run);

@@ -3,7 +3,8 @@ var urlManager = {
     tab : null,
 
     addUrl: function (url) {
-        /* Add URL to block to the local chrome storage. */
+        /* Add URL to block to the local chrome storage. Don't add duplicate
+           entries. */
         chrome.storage.local.get(function(cfg) {
             if(typeof(cfg["blocked"]) !== 'undefined' && cfg["blocked"] instanceof Array) {
                 if (!inArray(cfg["blocked"], url)) {

@@ -29,8 +29,8 @@ var urlManager = {
     },
 
     storeUrl : function() {
-        /* Called by click browserAction event. Adds link of the current tab to the list of
-        blocked sites. */
+        /* Called by click browserAction event. Adds link of the current tab to
+        the list of blocked sites. */
         // set and get a test value - keeping for reference for now
         // chrome.storage.local.set({"test" : "sergey"});
         // var testVal = chrome.storage.local.get('test', getCallback);
@@ -60,7 +60,6 @@ function getCurrentTabUrl(callback) {
         var tab = tabs[0];
         var url = tab.url;
         url = getHostname(url);
-        console.log("!!!! current hostname " + url.hostname);
         console.assert(typeof url.hostname == 'string', 'tab.url should be a string');
         callback(url.hostname);
     });
@@ -68,10 +67,10 @@ function getCurrentTabUrl(callback) {
 
 function inArray(blocked, value) {
     /* Checks is value is in array */
-    console.log(">>>>>>>>> inArray function. Array length=" + blocked.length);
+    // console.log(">>>>>>>>> inArray function. Array length=" + blocked.length);
     var n = blocked.length;
     for(var i = 0; i < n; i++) {
-        console.log(">>>> comparing array[i]=" + blocked[i] + " value= " + value);
+        // console.log(">>>> comparing array[i]=" + blocked[i] + " value= " + value);
         if(blocked[i] === value) {
             return true;
         }

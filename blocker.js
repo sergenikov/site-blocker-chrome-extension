@@ -7,19 +7,34 @@ function run(tab) {
 	// });
 }
 
-function printAllBlockedCallback(result) {
-    /* Used by getBlockedUrls. Prints list of all URLs that are blocked. */
+function printBlockedUrlsCallback(result) {
+    /* Used by printBlockedUrls. Prints list of all URLs that are blocked. */
     var blocked = result.blocked;
-    console.log("Blocked urls are:");
     for (i in blocked) {
-        console.log(blocked[i]);
+        console.log("[BLOCKED] " + blocked[i]);
     }
 }
 
-function getBlockedUrls() {
+function printBlockedUrls() {
     /* Print blocked URLs to console */
-    chrome.storage.local.get('blocked', printAllBlockedCallback);
+    chrome.storage.local.get('blocked', printBlockedUrlsCallback);
 }
 
-console.log("current hostname " + location.hostname);
-getBlockedUrls();
+function checkUrlCallback(result) {
+    /* Used by checkUrl. Blocks loading of current page if it's blocked. */
+    var blocked = result.blocked;
+    for (i in blocked) {
+        if (location.hostname === blocked[i]) {
+            console.log("[WARNING] " + location.hostname
+                + " is blocked. Replacing page.");
+        }
+    }
+}
+
+function checkUrl() {
+    /* Checked if the hostname is supposed to be blocked. */
+    chrome.storage.local.get('blocked', checkUrlCallback);
+}
+
+printBlockedUrls();
+checkUrl();

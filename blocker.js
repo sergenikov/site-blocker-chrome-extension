@@ -19,34 +19,38 @@ function checkUrlCallback(result) {
     for (i in blocked) {
         if (location.hostname === blocked[i]) {
             console.log("[WARNING] " + location.hostname
-                + " is blocked. Replacing page.");
-						// var overlay_div = document.createElement("div");
-						// overlay_div.innerHTML = "hello from me";
-						// var overlay_span = document.createElement("span");
-						// overlay_div.appendChild(overlay_span);
-						// // append to DOM
-						// document.body.appendChild(overlay_div);
+                    + " is blocked. Replacing page.");
 
-						//alert("blocked page");
-						//Creating Elements
-						// var el = document.getElementById("top_of_page");
-						// console.log("got element class " + el.parentElement.getAttribute("class"));
+            // create overlay elements
+            var overlay_div = document.createElement("div");
+            overlay_div.setAttribute("id", "overlay-div");
+            var overlay_span = document.createElement("span");
+            overlay_span.setAttribute("id", "overlay-span");
+            overlay_span.innerHTML = "This page is blocked. Keep working.";
+            overlay_div.appendChild(overlay_span);
+            // // append to DOM
+            document.body.appendChild(overlay_div);
 
-						// var divNode = document.createElement("div")
-						// divNode.setAttribute("id", "sergey");
-						// divNode.innerHTML = "skov";
-						// console.log("divNode id " + divNode.getAttribute("id"));
-						// //Appending to DOM 
-						// el.appendChild(divNode);
-						// document.body.appendChild(divNode);
+            //alert("blocked page");
+            //Creating Elements
+            // var el = document.getElementById("top_of_page");
+            // console.log("got element class " + el.parentElement.getAttribute("class"));
 
-						var newDiv = document.createElement("div");
-						newDiv.innerHTML = "hello from new div";
-						newDiv.style.width = "100px";
-						newDiv.style.height = "100px";
-						newDiv.style.background = "red";
-						newDiv.style.color = "white";
-						document.body.appendChild(newDiv);
+            // var divNode = document.createElement("div")
+            // divNode.setAttribute("id", "sergey");
+            // divNode.innerHTML = "skov";
+            // console.log("divNode id " + divNode.getAttribute("id"));
+            // //Appending to DOM
+            // el.appendChild(divNode);
+            // document.body.appendChild(divNode);
+
+            // var newDiv = document.createElement("div");
+            // newDiv.innerHTML = "hello from new div";
+            // newDiv.style.width = "100px";
+            // newDiv.style.height = "100px";
+            // newDiv.style.background = "red";
+            // newDiv.style.color = "white";
+            // document.body.appendChild(newDiv);
         }
     }
 }

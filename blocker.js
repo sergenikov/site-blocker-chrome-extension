@@ -1,12 +1,5 @@
 // Blocker loads when page you are browsing to loads.
 
-function run(tab) {
-	console.log("hello from background; url: " + tab.url);
-	// chrome.tabs.executeScript(tab.url, {
-	// 	code: 'alert("Cat not found!");'
-	// });
-}
-
 function printBlockedUrlsCallback(result) {
     /* Used by printBlockedUrls. Prints list of all URLs that are blocked. */
     var blocked = result.blocked;

@@ -17,7 +17,9 @@ function printAllBlockedCallback(result) {
 }
 
 function getBlockedUrls() {
+    /* Print blocked URLs to console */
     chrome.storage.local.get('blocked', printAllBlockedCallback);
 }
 
+console.log("current hostname " + location.hostname);
 getBlockedUrls();

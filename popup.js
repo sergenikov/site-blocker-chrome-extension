@@ -41,6 +41,15 @@ var urlManager = {
     }
 }
 
+function getHostname(url) {
+    /* Construct hostname and path from the url of the tab.
+    Trick learned from: http://stackoverflow.com/questions/736513/how-do-i-parse-a-url-into-hostname-and-path-in-javascript
+     */
+    var l = document.createElement("a");
+    l.href = url;
+    return l;
+}
+
 function getCurrentTabUrl(callback) {
     /* Get current tab url */
     var queryInfo = {
@@ -50,8 +59,10 @@ function getCurrentTabUrl(callback) {
     chrome.tabs.query(queryInfo, function(tabs) {
         var tab = tabs[0];
         var url = tab.url;
-        console.assert(typeof url == 'string', 'tab.url should be a string');
-        callback(url);
+        url = getHostname(url);
+        console.log("!!!! current hostname " + url.hostname);
+        console.assert(typeof url.hostname == 'string', 'tab.url should be a string');
+        callback(url.hostname);
     });
 }
 

@@ -67,10 +67,8 @@ function getCurrentTabUrl(callback) {
 
 function inArray(blocked, value) {
     /* Checks is value is in array */
-    // console.log(">>>>>>>>> inArray function. Array length=" + blocked.length);
     var n = blocked.length;
     for(var i = 0; i < n; i++) {
-        // console.log(">>>> comparing array[i]=" + blocked[i] + " value= " + value);
         if(blocked[i] === value) {
             return true;
         }
@@ -80,14 +78,13 @@ function inArray(blocked, value) {
 
 function removeCurrentUrl() {
     /* Remove current url from blocked array in local storage */
-    // TODO ISSUE remove nested callbacks later if possible.
+    // TODO remove nested callbacks later if possible.
     getCurrentTabUrl(function(url) {
-        console.log("removeCurrentUrl: removing " + url);
         chrome.storage.local.get(function(cfg) {
             if(typeof(cfg["blocked"]) !== 'undefined' && cfg["blocked"] instanceof Array) {
                 var blocked  = cfg['blocked'];
-                for (i in blocked) {
-                    if (blocked === url) {
+                for (i=0; i < blocked.length; i++) {
+                    if (blocked[i] === url) {
                         console.log("removeCurrentUrl: removing " + url);
                         blocked.splice(i, 1);
                     }

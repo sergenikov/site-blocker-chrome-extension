@@ -1,5 +1,9 @@
 // Blocker loads when page you are browsing to loads.
 
+var constants = {
+    blockedMessage : "This domain is blocked during work hours. Keep working."
+}
+
 function printBlockedUrlsCallback(result) {
     /* Used by printBlockedUrls. Prints list of all URLs that are blocked. */
     var blocked = result.blocked;
@@ -26,7 +30,7 @@ function checkUrlCallback(result) {
             overlay_div.setAttribute("id", "overlay-div");
             var overlay_span = document.createElement("span");
             overlay_span.setAttribute("id", "overlay-span");
-            overlay_span.innerHTML = "This page is blocked. Keep working.";
+            overlay_span.innerHTML = constants.blockedMessage;
             overlay_div.appendChild(overlay_span);
             // // append to DOM
             document.body.appendChild(overlay_div);

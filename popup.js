@@ -31,11 +31,6 @@ var urlManager = {
     storeUrl : function() {
         /* Called by click browserAction event. Adds link of the current tab to
         the list of blocked sites. */
-        // set and get a test value - keeping for reference for now
-        // chrome.storage.local.set({"test" : "sergey"});
-        // var testVal = chrome.storage.local.get('test', getCallback);
-
-        // add to array of blocked urls in local chrome storage
         this.addUrl(this.tab);
         this.getBlockedUrls();
     }
@@ -134,6 +129,7 @@ function initBlockingStatus() {
 }
 
 function printStorageValue(key) {
+    /* Prints storage value with key to console for debugging. */
     chrome.storage.local.get(key, function(result) {
         console.log("[INFO] printStorageValue: value at key "
             + key + " : " + JSON.stringify(result));
@@ -184,9 +180,7 @@ function start(tab) {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-    debugger;
     initBlockingStatus();
-    debugger;
     var btnAdd = document.getElementById('btnAdd');
     btnAdd.addEventListener('click', start);
 

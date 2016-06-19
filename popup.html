@@ -1,61 +1,70 @@
 <html>
-  <head>
+<head>
     <title>URL Blocker</title>
     <style>
-      body {
+    body {
         font-family: "Segoe UI", "Lucida Grande", Tahoma, sans-serif;
         font-size: 100%;
         background-color: #2f3238;
-      }
-      #status {
+    }
+    #status {
         /* avoid an excessively wide status text */
         white-space: pre;
         text-overflow: ellipsis;
         overflow: hidden;
         max-width: 400px;
-      }
+    }
 
-      #button-holder {
-          display: table-cell;
-          text-align: center;
-          vertical-align: middle;
-      }
+    #button-holder {
+        display: table-cell;
+        text-align: center;
+        vertical-align: middle;
+    }
 
-      .button {
-          display: inline-block;
-          width: 70px;
-          height: 70px;
-          font-weight: bold;
-          text-align: center;
-          text-transform: uppercase;
-          -webkit-border-radius: 0;
-          -moz-border-radius: 0;
-          border-radius: 0px;
-          color: #ffffff;
-          font-size: 10px;
-          background: #2f3238;
-          padding: 10px 10px 10px 10px;
-          border: solid #e08600 0px;
-      }
+    .button {
+        display: inline-block;
+        width: 70px;
+        height: 70px;
+        font-weight: bold;
+        text-align: center;
+        text-transform: uppercase;
+        -webkit-border-radius: 0;
+        -moz-border-radius: 0;
+        border-radius: 0px;
+        color: #ffffff;
+        font-size: 10px;
+        background: #2f3238;
+        padding: 10px 10px 10px 10px;
+        border: solid #e08600 0px;
+    }
 
-        .button:focus {
-            outline:none;
-      }
+    .button:focus {
+        outline:none;
+    }
 
-      .button:hover {
-          background:  #e08600;
-          text-decoration: none;
-      }
+    .button:hover {
+        background:  #e08600;
+        text-decoration: none;
+    }
+
+    #btnControl {
+        background: #666666;
+    }
+
+    #btnControl:hover {
+        background: #e08600;
+    }
 
     </style>
 
     <script src="popup.js"></script>
-  </head>
-  <body>
-      <div id="button-holder">
-          <button class="button" id="btnAdd">BLOCK DOMAIN</button>
-          <button class="button" id="btnRemove">UNBLOCK DOMAIN</button>
-          <button class="button" id="btnManage">UNBLOCK ALL</button>
-      </div>
-  </body>
+</head>
+<body>
+    <div id="button-holder">
+        <button class="button" id="btnControl">ON/OFF BLOCKING</button>
+        <button class="button" id="btnAdd">BLOCK DOMAIN</button>
+        <button class="button" id="btnRemove">UNBLOCK DOMAIN</button>
+        <button class="button" id="btnManage">UNBLOCK ALL</button>
+    </div>
+</body>
 </html>

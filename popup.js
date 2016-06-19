@@ -4,7 +4,7 @@ var urlManager = {
 
     addUrl: function (url) {
         /* Add URL to block to the local chrome storage. Don't add duplicate
-           entries. */
+        entries. */
         chrome.storage.local.get(function(cfg) {
             if(typeof(cfg["blocked"]) !== 'undefined' && cfg["blocked"] instanceof Array) {
                 if (!inArray(cfg["blocked"], url)) {
@@ -44,7 +44,7 @@ var urlManager = {
 function getHostname(url) {
     /* Construct hostname and path from the url of the tab.
     Trick learned from: http://stackoverflow.com/questions/736513/how-do-i-parse-a-url-into-hostname-and-path-in-javascript
-     */
+    */
     var l = document.createElement("a");
     l.href = url;
     return l;
@@ -91,7 +91,7 @@ function removeCurrentUrl() {
                 }
             } else {
                 console.log("removeCurrentUrl: ERROR: Did not get array "
-                    + "from storage");
+                + "from storage");
             }
             chrome.storage.local.set(cfg);
         });
@@ -100,6 +100,44 @@ function removeCurrentUrl() {
 
 function clearStorage() {
     urlManager.clearStorage();
+}
+
+function controlBlocking() {
+    /* Toggle on and off of blocking.
+    Uses Chrome local storage to store state. */
+    var key = "blocking_status";
+    console.log("popup.js: controlBlocking: toggling blocking");
+    chrome.storage.local.get(key, function(status) {
+        if (typeof(status) !== 'undefined' || status === true) {
+            console.log("controlBlocking: blocking ON. Turning off.");
+            chrome.storage.local.set({key : false}, setCallback);
+        } else {
+            console.log("controlBlocking: blocking OFF. Turning on.");
+            chrome.storage.local.set({key : true}, setCallback);
+        }
+    });
+}
+
+function initBlockingStatus() {
+    /* Initialized blocking status value in storage if it is not set. */
+    console.log("popup.js: initBlockingStatus: init blocking status in storage");
+    chrome.storage.local.get('blockingStatus', function(result) {
+        console.log("current status " + result.status);
+        if (result == null || result.status == null
+                            || result.status == 'undefined'
+                            || typeof(result) === 'undefined') {
+            console.log("popup.js: initBlockingStatus: undefined. Setting to false");
+            chrome.storage.local.set({'blockingStatus' : 'false'}, setCallback);
+            printStorageValue('blockingStatus');
+        }
+    });
+}
+
+function printStorageValue(key) {
+    chrome.storage.local.get(key, function(result) {
+        console.log("[INFO] printStorageValue: value at key "
+            + key + " : " + JSON.stringify(result));
+    });
 }
 
 /*****************************************************************************/
@@ -111,7 +149,7 @@ function getCallback(result) {
     console.log("got item " + result.test);
 }
 
-function setCallback() {
+function setCallback(result) {
     console.log("values set");
 }
 
@@ -129,7 +167,6 @@ function printAllBlockedCallback(result) {
     }
 }
 
-
 /*****************************************************************************/
 /* start */
 /*****************************************************************************/
@@ -143,14 +180,22 @@ function start(tab) {
         urlManager.tab = current_tab_url;
         urlManager.storeUrl();
     });
+
 }
 
 document.addEventListener('DOMContentLoaded', function() {
+    debugger;
+    initBlockingStatus();
+    debugger;
     var btnAdd = document.getElementById('btnAdd');
     btnAdd.addEventListener('click', start);
+
     var btnRemove = document.getElementById('btnRemove');
     btnRemove.addEventListener('click', removeCurrentUrl);
-    // TODO change this to manage links later
+
     var btnManage = document.getElementById('btnManage');
     btnManage.addEventListener('click', clearStorage);
+
+    var btnControl = document.getElementById('btnControl');
+    btnControl.addEventListener('click', controlBlocking);
 });
